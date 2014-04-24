@@ -14,7 +14,7 @@ function SpaMvc()
     var contextLocation = "spa-mvc-context.json";
     $(document).ready(function(){
         $.ajax({
-            cache: false,
+//            cache: false,
             url: contextLocation,
             type: "GET",
             success: function(data) {
@@ -22,6 +22,7 @@ function SpaMvc()
                 var routeControllerMap = jQuery.makeArray(data.routeControllerMap);
                 var startupController = jQuery.makeArray(data.startupController);
                 var map, key, value;
+
                 for (var i = 0; i < viewsUrlMap.length; i++) {
                     map = new HashTable(viewsUrlMap[i]);
                     key = map.keys()[0];
@@ -29,6 +30,7 @@ function SpaMvc()
                     mvc.viewsUrlMap.setItem(key, value);
                     console.log("viewsUrlMap: ["+key+"] = " + value);
                 }
+
                 for (var i = 0; i < routeControllerMap.length; i++) {
                     map = new HashTable(routeControllerMap[i]);
                     key = map.keys()[0];
@@ -36,18 +38,13 @@ function SpaMvc()
                     mvc.routeControllerMap.setItem(key, value);
                     var controller = window[value];
                     mvc.controllersMap.setItem(value, controller);
-                    console.log("routeControllerMap: ["+key+"] = " + value + " {controller found:"+
-                        (controller!=undefined)+"}");
+                    console.log("routeControllerMap: ["+key+"] = " + value +
+                        " {controller found:"+ (controller!=undefined)+"}");
                 }
 
                 for (var i = 0; i < startupController.length; i++) {
                     mvc.controllersMap.getItem(startupController[i])();
                 }
-
-
-
-
-
 
             },
             failure: function(data) {

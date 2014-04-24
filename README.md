@@ -9,13 +9,13 @@ Running demo
 -----------------
 This project is a simple web app which can run inside any html web server
 
-#1)     git clone https://github.com/temesoft/spa-mvc-js.git
+  #1)     git clone https://github.com/temesoft/spa-mvc-js.git
 
 
-#2)     Then point your web server DocumentRoot to the newly created directory
+  #2)     Then point your web server DocumentRoot to the newly created directory
 
 
-#3)     Use your browser to navigate to /index.html
+  #3)     Use your browser to navigate to /index.html
 
 
 
