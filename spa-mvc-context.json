@@ -1,0 +1,17 @@
+{
+    "viewsUrlMap": [
+        {"LearnMore": "views/LearnMore.html"},
+        {"Overview": "views/Overview.html"},
+        {"Reports": "views/Reports.html"},
+        {"Index": "views/Index.html"}
+    ],
+
+    "routeControllerMap": [
+        {"learn-more": "learnMoreController"},
+        {"overview": "overviewController"},
+        {"reports": "reportsController"},
+        {"index": "indexController"}
+    ],
+
+    "startupController": ["indexController"]
+}
