@@ -3,7 +3,8 @@ spa-mvc-js
 
 The goal of this project is create a simple, structured single page application model-view-controller framework for
 JavaScript running inside the browser. The main idea is separation of view, controller and model within the application.
-Remote calls and controller logic should be separate from views, layouts and styles.
+Remote calls and controller logic should be separate from views, layouts and styles. This framework loads all
+configuration, controllers and views without waiting for DOM to be ready.
 
 External libraries used
 -----------------------

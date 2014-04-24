@@ -15,7 +15,7 @@ var indexController = function IndexController(paramsArray)
     });
 
     $(".reportsLeftMenuButton").unbind("click").bind("click", function(e){
-        document.location = "#reports";
+        document.location = "#reports|84f31dc|294";
     });
 
     $(".indexLeftMenuButton").unbind("click").bind("click", function(e){

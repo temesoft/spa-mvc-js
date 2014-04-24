@@ -11,51 +11,7 @@
 function SpaMvc()
 {
 
-    var contextLocation = "spa-mvc-context.json";
-    $(document).ready(function(){
-        $.ajax({
-//            cache: false,
-            url: contextLocation,
-            type: "GET",
-            success: function(data) {
-                var viewsUrlMap = jQuery.makeArray(data.viewsUrlMap);
-                var routeControllerMap = jQuery.makeArray(data.routeControllerMap);
-                var startupController = jQuery.makeArray(data.startupController);
-                var map, key, value;
-
-                for (var i = 0; i < viewsUrlMap.length; i++) {
-                    map = new HashTable(viewsUrlMap[i]);
-                    key = map.keys()[0];
-                    value = map.getItem(key);
-                    mvc.viewsUrlMap.setItem(key, value);
-                    console.log("viewsUrlMap: ["+key+"] = " + value);
-                }
-
-                for (var i = 0; i < routeControllerMap.length; i++) {
-                    map = new HashTable(routeControllerMap[i]);
-                    key = map.keys()[0];
-                    value = map.getItem(key);
-                    mvc.routeControllerMap.setItem(key, value);
-                    var controller = window[value];
-                    mvc.controllersMap.setItem(value, controller);
-                    console.log("routeControllerMap: ["+key+"] = " + value +
-                        " {controller found:"+ (controller!=undefined)+"}");
-                }
-
-                for (var i = 0; i < startupController.length; i++) {
-                    mvc.controllersMap.getItem(startupController[i])();
-                }
-
-            },
-            failure: function(data) {
-                console.log("Failure loading context ["+contextLocation+"]: " + data);
-            },
-            error: function(data) {
-                console.log("Error loading context ["+contextLocation+"]: " + data);
-            }
-        });
-    });
-
+    debug("Starting SpaMvc...");
 
     this.viewsUrlMap        = new HashTable({});
     this.viewsMap           = new HashTable({});
@@ -72,7 +28,7 @@ function SpaMvc()
             viewTemplate = mvc.viewsMap.getItem(viewName);
         }
         var template = Handlebars.compile(viewTemplate);
-        console.log("Processing view ["+viewName+"] " + ((new Date().getTime())-startTime) + "ms");
+        debug("Processing view ["+viewName+"] " + ((new Date().getTime())-startTime) + "ms");
         return template(model);
     }
 
@@ -96,66 +52,129 @@ function SpaMvc()
     {
         var key = viewName;
         var viewUrl = this.viewsUrlMap.getItem(key);
-        console.log("Loading view ["+key+"] from ["+viewUrl+"]");
+        debug("Loading mvc.loadView("+key+") from ["+viewUrl+"]");
         $.ajax({
             cache: false,
             url: viewUrl,
             type: "GET",
             success: function(data) {
                 mvc.viewsMap.setItem(key, data);
-                console.log("Loaded view ["+key+"] " + data.length + " bytes");
+                debug("mvc.loadView("+key+") " + data.length + " bytes");
             },
             failure: function(data) {
-                console.log("Failure loading view ["+key+"]: " + data);
+                debug("Failure loading mvc.loadView("+key+") " + data);
             },
             error: function(data) {
-                console.log("Error loading view ["+key+"]: " + data);
+                debug("Error loading mvc.loadView("+key+") " + data);
             },
-            async: false // TODO...
+            async: false
         });
     };
 
 
     /**
-     * Consumes URL hash calls and routs the action to appropriate controller
+     * Consumes URL hash calls and routs / dispatches the action to appropriate controller
      */
+    this.processHash = function(hash)
+    {
+        hash = hash.substring(1);
+        var params = hash.split("|");
+        if (params.length > 0)
+        {
+            var routing = params[0];
+            if (window.mvc != undefined)
+            {
+                var keys = mvc.routeControllerMap.keys();
+                for (var i = 0; i < keys.length; i++) {
+                    if (keys[i] == routing)
+                    {
+                        var controllerName = mvc.routeControllerMap.getItem(keys[i]);
+                        var controller = mvc.controllersMap.getItem(controllerName);
+                        params.shift(); // remove first element in array (routing param)
+                        controller(params);
+                    }
+                }
+            }
+        }
+    }
+
+    // Routing / dispatching mvc module
     $(function(){
         $(window).hashchange( function(){
             var hash = location.hash;
             if (stringUtils.isNotBlank(hash))
             {
-                hash = hash.substring(1);
-                var params = hash.split("|");
-                if (params.length > 0)
-                {
-                    var routing = params[0];
-                    if (window.mvc != undefined)
-                    {
-                        var keys = mvc.routeControllerMap.keys();
-                        for (var i = 0; i < keys.length; i++) {
-                            if (keys[i] == routing)
-                            {
-                                var controllerName = mvc.routeControllerMap.getItem(keys[i]);
-                                var controller = mvc.controllersMap.getItem(controllerName);
-                                params.shift(); // remove first element in array (routing param)
-                                controller(params);
-                            }
-                        }
-                    }
-                }
+                mvc.processHash(hash);
             }
         });
         $(window).hashchange();
     });
 
-
 };
-var mvc = new SpaMvc();
-
-
-
 /**
  * IE console.log fix:
  * http://stackoverflow.com/questions/3326650/console-is-undefined-error-for-internet-explorer
  */
 if (!window.console) console = {log: function (s) {}};
+
+function debug(log)
+{
+    console.log(new Date() + " {"+new Date().getTime()+"} - " + log);
+}
+
+// Here is where we declare and initiate global object - mvc.*
+var mvc = new SpaMvc();
+
+$.ajax({
+    url: "spa-mvc-context.json",
+    type: "GET",
+    success: function(data) {
+
+        var viewsUrlMap = jQuery.makeArray(data.viewsUrlMap);
+        var routeControllerMap = jQuery.makeArray(data.routeControllerMap);
+        var startupController = jQuery.makeArray(data.startupController);
+        var map, key, value;
+
+        for (var i = 0; i < viewsUrlMap.length; i++) {
+            map = new HashTable(viewsUrlMap[i]);
+            key = map.keys()[0];
+            value = map.getItem(key);
+            mvc.viewsUrlMap.setItem(key, value);
+//            debug("viewsUrlMap: ["+key+"] = " + value);
+        }
+
+        for (var i = 0; i < routeControllerMap.length; i++) {
+            map = new HashTable(routeControllerMap[i]);
+            key = map.keys()[0];
+            value = map.getItem(key);
+            mvc.routeControllerMap.setItem(key, value);
+            var controller = window[value];
+            mvc.controllersMap.setItem(value, controller);
+//            debug("routeControllerMap: ["+key+"] = " + value + " {controller found:"+ (controller!=undefined)+"}");
+        }
+
+        for (var i = 0; i < startupController.length; i++) {
+            mvc.controllersMap.getItem(startupController[i])();
+        }
+
+        // If there is hash command - process through regular mvc route dispatcher
+        if (location.hash.indexOf("#") == 0)
+        {
+            var hash = location.hash;
+            if (stringUtils.isNotBlank(hash))
+            {
+                mvc.processHash(hash);
+            }
+        }
+
+    },
+    failure: function(data) {
+        debug("Failure loading context ["+contextLocation+"]: " + data);
+    },
+    error: function(data) {
+        debug("Error loading context ["+contextLocation+"]: " + data);
+    }
+});
+
+
+
