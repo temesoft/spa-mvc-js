@@ -9,9 +9,9 @@ External libraries used
 -----------------------
 
 * [jQuery](http://jquery.com/)
-* [Bootstrap](http://getbootstrap.com/)
-* [Handlebars](http://handlebarsjs.com/)
-* [hashchange](http://benalman.com/projects/jquery-hashchange-plugin/)
+* [Bootstrap](http://getbootstrap.com/) - to make it a little pretty
+* [Handlebars](http://handlebarsjs.com/) - view template framework
+* [hashchange](http://benalman.com/projects/jquery-hashchange-plugin/) - browser address hashchange utility
 
 
 
