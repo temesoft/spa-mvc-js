@@ -7,18 +7,18 @@ var indexController = function IndexController(paramsArray)
 
 
     $(".learnMoreButton").unbind("click").bind("click", function(e){
-        document.location = "#learn-more";
+        mvc.routeCommand("learn-more", [1,2,new Date(),4,Math.floor(Math.random() * 1000000000),6,7,8,9,0]);
     });
 
     $(".overviewLeftMenuButton").unbind("click").bind("click", function(e){
-        document.location = "#overview";
+        mvc.routeCommand("overview", [1,2,new Date(),4,Math.floor(Math.random() * 1000000000),6,7,8,9,0]);
     });
 
     $(".reportsLeftMenuButton").unbind("click").bind("click", function(e){
-        document.location = "#reports|84f31dc|294";
+        mvc.routeCommand("reports", Math.floor(Math.random() * 1000000000));
     });
 
     $(".indexLeftMenuButton").unbind("click").bind("click", function(e){
-        document.location = "#index";
+        mvc.routeCommand("index", []);
     });
 }

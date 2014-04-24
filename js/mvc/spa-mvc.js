@@ -8,11 +8,10 @@
  *
  * @constructor
  */
-function SpaMvc()
+function SpaMvc(sid)
 {
-
-    debug("Starting SpaMvc...");
-
+    debug("Starting SpaMvc.");
+    this.sessionId          = sid;
     this.viewsUrlMap        = new HashTable({});
     this.viewsMap           = new HashTable({});
     this.controllersMap     = new HashTable({});
@@ -91,11 +90,19 @@ function SpaMvc()
                         var controllerName = mvc.routeControllerMap.getItem(keys[i]);
                         var controller = mvc.controllersMap.getItem(controllerName);
                         params.shift(); // remove first element in array (routing param)
-                        controller(params);
+                        var decParamStr = CryptoJS.AES.decrypt(params[0], mvc.sessionId);
+                        controller(decParamStr.toString(CryptoJS.enc.Utf8).split("|"));
                     }
                 }
             }
         }
+    }
+
+    this.routeCommand = function(command, paramArray)
+    {
+        var encRoute = "#" + command + "|" +
+            CryptoJS.AES.encrypt(jQuery.makeArray(paramArray).join("|"), mvc.sessionId).toString();
+        document.location = encRoute;
     }
 
     // Routing / dispatching mvc module
@@ -123,7 +130,7 @@ function debug(log)
 }
 
 // Here is where we declare and initiate global object - mvc.*
-var mvc = new SpaMvc();
+var mvc = new SpaMvc(CryptoJS.MD5("application-specific-cryptography-salt").toString());
 
 $.ajax({
     url: "spa-mvc-context.json",

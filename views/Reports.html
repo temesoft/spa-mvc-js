@@ -1,8 +1,9 @@
 <h2>Reports content goes here...</h2>
 <hr/>
-<strong>this.createTime = "{{this.createTime}}"</strong>
+<strong>model.createTime = "{{this.createTime}}"</strong>
 {{#if this.paramsArray}}
-<br/>
+    <br/>
+    <strong>Url address encrypted params</strong>
     <ul>
     {{#each this.paramsArray}}
         <li>Param[{{@index}}] = {{this}}</li>

@@ -1,13 +1,14 @@
 <h2>Overview content goes here...</h2>
 <hr/>
-<strong>this.createTime = "{{this.createTime}}"</strong>
+<strong>model.createTime = "{{this.createTime}}"</strong>
 {{#if this.paramsArray}}
-<br/>
-<ul>
-    {{#each this.paramsArray}}
-    <li>Param[{{@index}}] = {{this}}</li>
-    {{/each}}
-</ul>
+    <br/>
+    <strong>Url address encrypted params</strong>
+    <ul>
+        {{#each this.paramsArray}}
+        <li>Param[{{@index}}] = {{this}}</li>
+        {{/each}}
+    </ul>
 {{/if}}
 <hr/>
 <div class="table-responsive">
