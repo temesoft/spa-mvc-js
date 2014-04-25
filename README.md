@@ -1,10 +1,10 @@
 spa-mvc-js
-==========
+----------
 
 The goal of this project is a very simple Single Page Application Model-View-Controller framework for JavaScript.
 
 Features
-========
+--------
 * Small in size, simple SPA MVC for front end
 * View template provided by a popular Handlebars framework
 * Controller logic and routing bindings are separate from views, layouts and styles
@@ -33,11 +33,9 @@ Demo
 
 Running demo
 ------------
-This project includes the demo app which can run inside any html web server
-
-#1)     git clone https://github.com/temesoft/spa-mvc-js.git
-#2)     Then point your web server DocumentRoot to the newly created directory .../spa-mvc-js
-#3)     Use your browser to navigate to /index.html
+* This project includes the demo app which can run inside any html web server
+* Just point your web server to the newly created directory .../spa-mvc-js
+* Use your browser to navigate to /index.html
 
 
 
