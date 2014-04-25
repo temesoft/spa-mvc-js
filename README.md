@@ -1,7 +1,7 @@
 spa-mvc-js
 ==========
 
-The goal of this project is a very simple, Single Page Application Model-View-Controller framework for JavaScript.
+The goal of this project is a very simple Single Page Application Model-View-Controller framework for JavaScript.
 
 Features
 ========
