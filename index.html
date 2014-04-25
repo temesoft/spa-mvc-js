@@ -30,6 +30,7 @@
                 <li><a href="javascript:" class="overviewLeftMenuButton">Overview</a></li>
                 <li><a href="javascript:" class="reportsLeftMenuButton">Reports</a></li>
                 <li><a href="javascript:" class="learnMoreButton">Learn more</a></li>
+                <li><a><i class="glyphicon glyphicon-chevron-up"></i>Try those links</a> </li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -66,7 +67,7 @@
     // This is where we declare and initiate global object mvc
     var mvc = new SpaMvc({
         "sessionId": CryptoJS.MD5("application-specific-cryptography-salt").toString(),
-        "encryptHashParams": false
+        "encryptHashParams": true
     });
     mvc.loadSpaMvcContext("spa-mvc-context.json");
 </script>

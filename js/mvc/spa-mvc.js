@@ -147,64 +147,68 @@ function SpaMvc(options)
         document.location = encRoute;
     }
 
-    this.loadSpaMvcContext = function(jsonConfigFile)
+    this.loadSpaMvcContext = function(jsonConfigFiles)
     {
-        $.ajax({
-            url: jsonConfigFile,
-            type: "GET",
-            async: false,
-            success: function(data) {
+        var jsonConfigFilesArray = jQuery.makeArray(jsonConfigFiles);
+        for (var i = 0; i < jsonConfigFilesArray.length; i++)
+        {
+            var jsonConfigFile = jsonConfigFilesArray[i];
+            $.ajax({
+                url: jsonConfigFile,
+                type: "GET",
+                async: false,
+                success: function(data) {
 
-                var viewsUrlMap = jQuery.makeArray(data.viewsUrlMap);
-                var routeControllerMap = jQuery.makeArray(data.routeControllerMap);
-                var startupController = jQuery.makeArray(data.startupController);
-                var startupUiBindings = jQuery.makeArray(data.startupUiBindings);
-                var map, key, value;
+                    var viewsUrlMap = jQuery.makeArray(data.viewsUrlMap);
+                    var routeControllerMap = jQuery.makeArray(data.routeControllerMap);
+                    var startupController = jQuery.makeArray(data.startupController);
+                    var startupUiBindings = jQuery.makeArray(data.startupUiBindings);
+                    var map, key, value;
 
-                for (var i = 0; i < viewsUrlMap.length; i++) {
-                    map = new HashTable(viewsUrlMap[i]);
-                    key = map.keys()[0];
-                    value = map.getItem(key);
-                    mvc.viewsUrlMap.setItem(key, value);
+                    for (var i = 0; i < viewsUrlMap.length; i++) {
+                        map = new HashTable(viewsUrlMap[i]);
+                        key = map.keys()[0];
+                        value = map.getItem(key);
+                        mvc.viewsUrlMap.setItem(key, value);
 //            debug("viewsUrlMap: ["+key+"] = " + value);
-                }
-
-                for (var i = 0; i < routeControllerMap.length; i++) {
-                    map = new HashTable(routeControllerMap[i]);
-                    key = map.keys()[0];
-                    value = map.getItem(key);
-                    mvc.routeControllerMap.setItem(key, value);
-                    var controller = window[value];
-                    mvc.controllersMap.setItem(value, controller);
-//            debug("routeControllerMap: ["+key+"] = " + value + " {controller found:"+ (controller!=undefined)+"}");
-                }
-
-                for (var i = 0; i < startupController.length; i++) {
-                    mvc.controllersMap.getItem(startupController[i])();
-                }
-
-                for (var i = 0; i < startupUiBindings.length; i++) {
-                    mvc.controllersMap.getItem(startupUiBindings[i])();
-                }
-
-                // If there is hash command - process through regular mvc route dispatcher
-                if (location.hash.indexOf("#") == 0)
-                {
-                    var hash = location.hash;
-                    if (stringUtils.isNotBlank(hash))
-                    {
-                        mvc.processHash(hash);
                     }
-                }
 
-            },
-            failure: function(data) {
-                debug("Failure loading context ["+contextLocation+"]: " + data);
-            },
-            error: function(data) {
-                debug("Error loading context ["+contextLocation+"]: " + data);
-            }
-        });
+                    for (var i = 0; i < routeControllerMap.length; i++) {
+                        map = new HashTable(routeControllerMap[i]);
+                        key = map.keys()[0];
+                        value = map.getItem(key);
+                        mvc.routeControllerMap.setItem(key, value);
+                        var controller = window[value];
+                        mvc.controllersMap.setItem(value, controller);
+//            debug("routeControllerMap: ["+key+"] = " + value + " {controller found:"+ (controller!=undefined)+"}");
+                    }
+
+                    for (var i = 0; i < startupController.length; i++) {
+                        mvc.controllersMap.getItem(startupController[i])();
+                    }
+
+                    for (var i = 0; i < startupUiBindings.length; i++) {
+                        mvc.controllersMap.getItem(startupUiBindings[i])();
+                    }
+
+                    // If there is hash command - process through regular mvc route dispatcher
+                    if (location.hash.indexOf("#") == 0)
+                    {
+                        var hash = location.hash;
+                        if (stringUtils.isNotBlank(hash))
+                        {
+                            mvc.processHash(hash);
+                        }
+                    }
+                },
+                failure: function(data) {
+                    debug("Failure loading context ["+contextLocation+"]: " + data);
+                },
+                error: function(data) {
+                    debug("Error loading context ["+contextLocation+"]: " + data);
+                }
+            });
+        }
     }
 
     // Routing / dispatching mvc module
