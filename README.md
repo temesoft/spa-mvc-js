@@ -8,7 +8,7 @@ Features
 * Small in size, simple SPA MVC for front end
 * View template provided by a popular Handlebars framework
 * Controller logic and routing bindings are separate from views, layouts and styles
-* Encrypted hash parameters option to turn this parametrized hash url
+* Encryption option of #hash url parameters (CryptoJS AES) 
 * Bookmarkable #hash history via a cross-browser HTML5 window.onhashchange event
 * Startup UI Bindings (separate from possible controller bindings)
 * Single place to configure views and controllers
