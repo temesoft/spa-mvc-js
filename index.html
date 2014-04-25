@@ -11,9 +11,6 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="">spa-mvc-js</a>
         </div>
@@ -53,14 +50,26 @@
 <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
 
 
+
 <script src="js/jquery.ba-hashchange.js"></script>
 <script src="js/string-utils.js"></script>
 <script src="js/hashtable.js"></script>
 
-<script src="js/mvc/spa-mvc.js"></script>
 <script src="js/mvc/controllers/LearnMoreController.js"></script>
 <script src="js/mvc/controllers/OverviewController.js"></script>
 <script src="js/mvc/controllers/ReportsController.js"></script>
 <script src="js/mvc/controllers/index.js"></script>
+
+<script src="js/mvc/spa-mvc.js"></script>
+
+<script>
+    // This is where we declare and initiate global object mvc
+    var mvc = new SpaMvc({
+        "sessionId": CryptoJS.MD5("application-specific-cryptography-salt").toString(),
+        "encryptHashParams": false
+    });
+    mvc.loadSpaMvcContext("spa-mvc-context.json");
+</script>
+
 </body>
 </html>

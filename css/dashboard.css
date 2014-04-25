@@ -7,6 +7,11 @@
 body {
     padding-top: 50px;
 }
+.nav-sidebar LI.active A,
+.nav-sidebar LI.active A.active:hover,
+.nav-sidebar LI.active A.active:focus {
+    background-color: #2277A0;
+}
 
 
 /*

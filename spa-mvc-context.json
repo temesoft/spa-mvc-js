@@ -1,4 +1,8 @@
 {
+    "startupController": ["indexController"],
+
+    "startupUiBindings": ["startupUiBindings"],
+
     "viewsUrlMap": [
         {"LearnMore": "views/LearnMore.html"},
         {"Overview": "views/Overview.html"},
@@ -10,8 +14,7 @@
         {"learn-more": "learnMoreController"},
         {"overview": "overviewController"},
         {"reports": "reportsController"},
-        {"index": "indexController"}
-    ],
-
-    "startupController": ["indexController"]
+        {"index": "indexController"},
+        {"startupUiBindings": "startupUiBindings"}
+    ]
 }
