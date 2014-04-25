@@ -64,11 +64,12 @@
 <script src="js/mvc/spa-mvc.js"></script>
 
 <script>
-    // This is where we declare and initiate global object mvc
-    var mvc = new SpaMvc({
+    // This is where we configure, initiate and load global mvc context
+    var configParams = {
         "sessionId": CryptoJS.MD5("application-specific-cryptography-salt").toString(),
         "encryptHashParams": true
-    });
+    };
+    var mvc = new SpaMvc(configParams);
     mvc.loadSpaMvcContext("spa-mvc-context.json");
 </script>
 

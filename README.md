@@ -1,22 +1,20 @@
 spa-mvc-js
 ==========
 
-The goal of this project is create a simple, structured single page application model-view-controller framework for
-JavaScript running inside the browser. The main idea is separation of view, controller and model within the application.
-Remote calls and controller logic should be separate from views, layouts and styles. This framework loads all
-configuration, controllers and views without waiting for DOM to be ready. Visible url address hash commands are
-encrypted using CryptoJS.AES libraries.
+The goal of this project is a very simple, Single Page Application Model-View-Controller framework for JavaScript.
 
 Features
 ========
--  Simple front end SPA MVC
--  View template provided by a popular Handlebars framework
--  Controller logic and routing bindings are separate from views, layouts and styles
--  Encrypted hash parameters option to turn this parametrized hash url
--  Startup UI Bindings (separate from possible controller bindings)
--  Single place to configure views and controllers
--  Asynchronous context and controllers loading
--  JSON context MVC configuration
+* Small in size, simple SPA MVC for front end
+* View template provided by a popular Handlebars framework
+* Controller logic and routing bindings are separate from views, layouts and styles
+* Encrypted hash parameters option to turn this parametrized hash url
+* Bookmarkable #hash history via a cross-browser HTML5 window.onhashchange event
+* Startup UI Bindings (separate from possible controller bindings)
+* Single place to configure views and controllers
+* Asynchronous context and controllers loading
+* JSON context MVC configuration / settings file(s)
+* Pre-load all views or load/cache when requested
 
 
 External libraries used
