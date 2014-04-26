@@ -21,16 +21,13 @@ Framework sample JSON configuration
 <pre>
 {
     "startupController": ["indexController"],
-
     "startupUiBindings": ["startupUiBindings"],
-
     "viewsUrlMap": [
         {"LearnMore": "views/LearnMore.html"},
         {"Overview": "views/Overview.html"},
         {"Reports": "views/Reports.html"},
         {"Index": "views/Index.html"}
     ],
-
     "routeControllerMap": [
         {"learn-more": "learnMoreController"},
         {"overview": "overviewController"},
@@ -39,6 +36,21 @@ Framework sample JSON configuration
     ]
 }
 </pre>
+
+SPA MVC Application context startup
+-----------------------------------
+<pre>
+var configParams =
+{
+    "sessionId": "12345678901234567890",
+    "encryptHashParams": true,
+    "debugOn": true,
+    "context": ["spa-mvc-context.json"]
+};
+var mvc = new SpaMvc(configParams);
+mvc.loadSpaMvcContext();
+</pre>
+
 
 External libraries used
 -----------------------
