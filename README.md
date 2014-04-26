@@ -39,7 +39,7 @@ Framework sample JSON configuration
 
 Web root directory structure
 ----------------------------
-.
+<pre>
 ├── <b>css</b> <em>(contains application stylesheets)</em>
 │
 ├── <b>js</b>
@@ -53,7 +53,7 @@ Web root directory structure
 │       └── <b>models</b> <em>(contains model dto classes)</em>
 │
 └── <b>views</b> <em>(contains html view templates)</em>
-
+</pre>
 
 SPA MVC Application context startup
 -----------------------------------
