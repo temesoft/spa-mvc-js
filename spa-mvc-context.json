@@ -14,7 +14,6 @@
         {"learn-more": "learnMoreController"},
         {"overview": "overviewController"},
         {"reports": "reportsController"},
-        {"index": "indexController"},
-        {"startupUiBindings": "startupUiBindings"}
+        {"index": "indexController"}
     ]
 }

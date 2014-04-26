@@ -19,7 +19,7 @@ function SpaMvc(options)
         this.sessionId          = "pass-session-id-as-options-param";
         this.encryptHashParams  = true;
         this.debugOn            = false;
-        this.timestamp          = function(){ return (new Date())+" " };
+        this.timestamp          = function(){ return (new Date())+"> " };
 
         if (stringUtils.isNotUndAndNull(options))
         {
@@ -192,27 +192,31 @@ function SpaMvc(options)
                             map = new HashTable(viewsUrlMap[i]);
                             key = map.keys()[0];
                             value = map.getItem(key);
-                            mvcThis.viewsUrlMap.setItem(key, value);
                             if (this.debugOn)
                                 console.log(this.timestamp() + "viewsUrlMap: ["+key+"] = " + value);
+                            mvcThis.viewsUrlMap.setItem(key, value);
                         }
 
                         for (var i = 0; i < routeControllerMap.length; i++) {
                             map = new HashTable(routeControllerMap[i]);
                             key = map.keys()[0];
                             value = map.getItem(key);
+                            if (this.debugOn)
+                                console.log(this.timestamp() + "routeControllerMap: ["+key+"] = " + value + " {controller found:"+ (controller!=undefined)+"}");
                             mvcThis.routeControllerMap.setItem(key, value);
                             var controller = window[value];
                             mvcThis.controllersMap.setItem(value, controller);
-                            if (this.debugOn)
-                                console.log(this.timestamp() + "routeControllerMap: ["+key+"] = " + value + " {controller found:"+ (controller!=undefined)+"}");
                         }
 
                         for (var i = 0; i < startupController.length; i++) {
+                            if (this.debugOn)
+                                console.log(this.timestamp() + "executing startup controller: ["+startupController[i]+"]");
                             mvcThis.controllersMap.getItem(startupController[i])();
                         }
 
                         for (var i = 0; i < startupUiBindings.length; i++) {
+                            if (this.debugOn)
+                                console.log(this.timestamp() + "executing startup ui bindings: ["+startupUiBindings[i]+"]");
                             window[startupUiBindings[i]]();
                         }
 
@@ -256,7 +260,7 @@ function SpaMvc(options)
     else
     {
         if (this.debugOn)
-            console.log(this.timestamp() + "spa-mvc-js can not be started without configuration options");
+            console.log(this.timestamp() + "spa-mvc-js framework can not be started without configuration options");
     }
 };
 /**
