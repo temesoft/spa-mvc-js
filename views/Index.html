@@ -2,55 +2,26 @@
     <div class="row">
         <div class="col-md-12 border rounded-corners heading">spa-mvc-js v1.0.3</div>
     </div>
-    <p>
-    The goal of this project is a simple Single Page Application Model-View-Controller framework for
-    JavaScript.
-    </p>
-
-    <div class="row">
-        <div class="col-md-12 border rounded-corners heading">framework features</div>
-    </div>
-    <ul>
-        <li>Small in size, simple SPA MVC for front end</li>
-        <li>View template provided by a popular Handlebars framework</li>
-        <li>Controller logic and routing bindings are separate from views, layouts and styles</li>
-        <li>Encryption option of #hash url parameters (CryptoJS AES) </li>
-        <li>Bookmarkable #hash history via a cross-browser HTML5 window.onhashchange event</li>
-        <li>Startup UI Bindings (separate from possible controller bindings)</li>
-        <li>Single place to configure views and controllers</li>
-        <li>Asynchronous context and controllers loading</li>
-        <li>JSON context MVC configuration / settings file(s)</li>
-        <li>Pre-load all views or load/cache when requested</li>
-    </ul>
-
-    <div class="row">
-        <div class="col-md-12 border rounded-corners heading">required external libraries</div>
-    </div>
-    <ul>
-        <li><a href="http://jquery.com/" target="newWindow">jQuery</a> - standard DOM manipulation</li>
-        <li><a href="http://handlebarsjs.com/" target="newWindow">Handlebars</a> - view template framework</li>
-        <li><a href="http://benalman.com/projects/jquery-hashchange-plugin/" target="newWindow">Hashchange</a> - browser address #hash hashchange</li>
-        <li><a href="https://code.google.com/p/crypto-js/" target="newWindow">CryptoJS (AES)</a> - url hash commands cryptography</li>
-    </ul>
-
-
-
 
 
     <hr/>
-    <h4>Web root location structure:</h4>
+    <h4>Web root directory structure</h4>
     <pre>
-/ {root}
-|
-|___/js <em>{dir}</em>
-|   |
-|   |___/controllers <em>{dir: with <strong>java script controller classes</strong> files}</em>
-|   |
-|   |___/context.js <em>{file: <strong>initial mvc context</strong>}</em>
-|
-|___/views <em>{dir: with <strong>pure html</strong> files}</em>
-|
-|___/index.html <em>{file: initial (single) page template}</em>
+.
+├── <b>css</b> <em>(contains application stylesheets)</em>
+│
+├── <b>js</b>
+│   │
+│   ├── <b>crypto-js</b> <em>(contains encryption libraries)</em>
+│   │
+│   └── <b>mvc</b> <em>(contains spa-mvc.js)</em>
+│       │
+│       ├── <b>controllers</b> <em>(contains controller classes)</em>
+│       │
+│       └── <b>models</b> <em>(contains model dto classes)</em>
+│
+└── <b>views</b> <em>(contains html view templates)</em>
+
     </pre>
 
 

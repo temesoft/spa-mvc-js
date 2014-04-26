@@ -1,20 +1,20 @@
 spa-mvc-js (v1.0.3)
 -------------------
 
-The goal of this project is a very simple Single Page Application Model-View-Controller framework for JavaScript.
+The goal of this project is a simple Single Page Application Model-View-Controller framework for JavaScript.
 
 Features
 --------
-* Small in size, simple SPA MVC for front end
-* View template provided by a popular Handlebars framework
+* Small in size, jQuery based, simple SPA MVC for front-end
 * Controller logic and routing bindings are separate from views, layouts and styles
-* Encryption option of #hash url parameters (CryptoJS AES) 
+* View template services provided by a popular Handlebars framework
+* Option to encrypt #hash url parameters (CryptoJS AES)
 * Bookmarkable #hash history via a cross-browser HTML5 window.onhashchange event
 * Startup UI Bindings (separate from possible controller bindings)
-* Single place to configure views and controllers
+* Single place to configure context: startup, views and controllers
 * Asynchronous context and controllers loading
 * JSON context MVC configuration / settings file(s)
-* Pre-load all views or load/cache when requested
+* Ability to pre-load all views or load/cache upon initial view request
 
 Framework sample JSON configuration
 --------------------
@@ -37,6 +37,24 @@ Framework sample JSON configuration
 }
 </pre>
 
+Web root directory structure
+----------------------------
+.
+├── <b>css</b> <em>(contains application stylesheets)</em>
+│
+├── <b>js</b>
+│   │
+│   ├── <b>crypto-js</b> <em>(contains encryption libraries)</em>
+│   │
+│   └── <b>mvc</b> <em>(contains spa-mvc.js)</em>
+│       │
+│       ├── <b>controllers</b> <em>(contains controller classes)</em>
+│       │
+│       └── <b>models</b> <em>(contains model dto classes)</em>
+│
+└── <b>views</b> <em>(contains html view templates)</em>
+
+
 SPA MVC Application context startup
 -----------------------------------
 <pre>
@@ -45,6 +63,7 @@ var configParams =
     "sessionId": "12345678901234567890",
     "encryptHashParams": true,
     "debugOn": true,
+    "preloadViews": true,
     "context": ["spa-mvc-context.json"]
 };
 var mvc = new SpaMvc(configParams);

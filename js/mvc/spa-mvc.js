@@ -19,6 +19,7 @@ function SpaMvc(options)
         this.sessionId          = "pass-session-id-as-options-param";
         this.encryptHashParams  = true;
         this.debugOn            = false;
+        this.preloadViews       = false;
         this.timestamp          = function(){ return (new Date())+"> " };
 
         if (stringUtils.isNotUndAndNull(options))
@@ -38,6 +39,10 @@ function SpaMvc(options)
             if (options['context'] != null)
             {
                 this.context = options['context'];
+            }
+            if (options['preloadViews'] != null)
+            {
+                this.preloadViews = options['preloadViews'];
             }
         }
 
@@ -228,6 +233,11 @@ function SpaMvc(options)
                             {
                                 mvcThis.processHash(hash);
                             }
+                        }
+
+                        if  (mvcThis.preloadViews)
+                        {
+                            mvcThis.loadViews();
                         }
                     },
                     failure: function(data) {

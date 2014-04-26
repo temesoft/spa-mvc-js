@@ -65,6 +65,7 @@
         "sessionId": CryptoJS.MD5("application-specific-cryptography-salt").toString(),
         "encryptHashParams": true,
         "debugOn": true,
+        "preloadViews": true,
         "context": ["spa-mvc-context.json"]
     };
     var mvc = new SpaMvc(configParams);
