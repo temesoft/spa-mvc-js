@@ -16,6 +16,29 @@ Features
 * JSON context MVC configuration / settings file(s)
 * Pre-load all views or load/cache when requested
 
+Framework sample JSON configuration
+--------------------
+<pre>
+{
+    "startupController": ["indexController"],
+
+    "startupUiBindings": ["startupUiBindings"],
+
+    "viewsUrlMap": [
+        {"LearnMore": "views/LearnMore.html"},
+        {"Overview": "views/Overview.html"},
+        {"Reports": "views/Reports.html"},
+        {"Index": "views/Index.html"}
+    ],
+
+    "routeControllerMap": [
+        {"learn-more": "learnMoreController"},
+        {"overview": "overviewController"},
+        {"reports": "reportsController"},
+        {"index": "indexController"}
+    ]
+}
+</pre>
 
 External libraries used
 -----------------------
