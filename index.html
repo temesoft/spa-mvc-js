@@ -16,7 +16,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="">Dashboard</a></li>
+                <li class="active"><a href="" id="urlEncryptionBtn">URL Encryption (ON)</a></li>
             </ul>
         </div>
     </div>
@@ -27,7 +27,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li><a href="javascript:" class="indexLeftMenuButton">Index</a></li>
-                <li><a href="javascript:" class="overviewLeftMenuButton">Overview</a></li>
+                <li><a href="javascript:" class="currencyConverterLeftMenuButton">Currency converter</a></li>
                 <li><a href="javascript:" class="reportsLeftMenuButton">Reports</a></li>
                 <li><a href="javascript:" class="learnMoreButton">Learn more</a></li>
                 <li><a><i class="glyphicon glyphicon-chevron-up"></i>Try those links</a> </li>
@@ -52,7 +52,7 @@
 <script src="js/hashtable.js"></script>
 
 <script src="js/mvc/controllers/LearnMoreController.js"></script>
-<script src="js/mvc/controllers/OverviewController.js"></script>
+<script src="js/mvc/controllers/CurrencyConverterController.js"></script>
 <script src="js/mvc/controllers/ReportsController.js"></script>
 <script src="js/mvc/controllers/index.js"></script>
 
@@ -60,14 +60,17 @@
 
 <script>
     // This is where we configure, initiate and load global mvc context
+    var urlEncryption = getCookie("urlEncryption", false);
     var configParams =
     {
         "sessionId": CryptoJS.MD5("application-specific-cryptography-salt").toString(),
-        "encryptHashParams": true,
+        "encryptHashParams": urlEncryption=="true",
         "debugOn": true,
         "preloadViews": true,
         "context": ["spa-mvc-context.json"]
     };
+    $("#urlEncryptionBtn").html("<span class='text-muted'>URL Encryption: <strong class='text-primary'>" +
+            (urlEncryption=="true"?"On":"Off") + "</strong></span>");
     var mvc = new SpaMvc(configParams);
     mvc.loadSpaMvcContext();
 </script>

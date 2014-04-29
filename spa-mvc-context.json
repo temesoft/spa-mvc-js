@@ -5,14 +5,14 @@
 
     "viewsUrlMap": [
         {"LearnMore": "views/LearnMore.html"},
-        {"Overview": "views/Overview.html"},
+        {"CurrencyConverter": "views/CurrencyConverter.html"},
         {"Reports": "views/Reports.html"},
         {"Index": "views/Index.html"}
     ],
 
     "routeControllerMap": [
         {"learn-more": "learnMoreController"},
-        {"overview": "overviewController"},
+        {"currency-converter": "currencyConverterController"},
         {"reports": "reportsController"},
         {"index": "indexController"}
     ]
