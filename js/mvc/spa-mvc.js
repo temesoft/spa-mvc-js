@@ -15,6 +15,7 @@ function SpaMvc(options)
     if (stringUtils.isNotUndAndNull(options))
     {
         this.version            = "0.3";
+        this.useHashRouting     = true;
         this.context            = "spa-mvc-context.json";
         this.sessionId          = "pass-session-id-as-options-param";
         this.encryptHashParams  = true;
@@ -31,6 +32,10 @@ function SpaMvc(options)
             if (options['encryptHashParams'] != null)
             {
                 this.encryptHashParams = options['encryptHashParams'];
+            }
+            if (options['useHashRouting'] != null)
+            {
+                this.useHashRouting = options['useHashRouting'];
             }
             if (options['debugOn'] != null)
             {
@@ -218,7 +223,7 @@ function SpaMvc(options)
                         for (var i = 0; i < startupController.length; i++) {
                             if (this.debugOn)
                                 console.log(this.timestamp() + "executing startup controller: ["+startupController[i]+"]");
-                            mvcThis.controllersMap.getItem(startupController[i])();
+                            window[startupController[i]]();
                         }
 
                         // If there is hash command - process through regular mvc route dispatcher
@@ -246,22 +251,24 @@ function SpaMvc(options)
                     }
                 });
             }
-        }
-
+        };
 
         // Routing / dispatching mvc module
-        if (this.debugOn) console.log(this.timestamp() + "Binding #hashchange functionality");
-        var mvcThis = this;
-        $(function(){
-            $(window).hashchange( function(){
-                var hash = location.hash;
-                if (stringUtils.isNotBlank(hash))
-                {
-                    mvcThis.processHash(hash);
-                }
+        if (this.useHashRouting)
+        {
+            if (this.debugOn) console.log(this.timestamp() + "Binding #hashchange functionality");
+            var mvcThis = this;
+            $(function(){
+                $(window).hashchange( function(){
+                    var hash = location.hash;
+                    if (stringUtils.isNotBlank(hash))
+                    {
+                        mvcThis.processHash(hash);
+                    }
+                });
+                $(window).hashchange();
             });
-            $(window).hashchange();
-        });
+        }
     }
     else
     {
