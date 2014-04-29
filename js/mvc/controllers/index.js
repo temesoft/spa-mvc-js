@@ -1,16 +1,14 @@
+/**
+ * Pre binds the main menu links for clicks also some functionality
+ * for the url encryption toggle (cookie driven)
+ */
 var indexController = function IndexController(paramsArray)
 {
     $(".nav-sidebar LI").removeClass("active");
     $(".indexLeftMenuButton").parent().addClass("active");
     var result = mvc.processView("Index", null);
     $(".main").html(result);
-}
 
-/**
- * Pre binds the main menu links for clicks
- */
-var startupUiBindings = function StartupUiBindings()
-{
     $(".learnMoreButton").unbind("click").bind("click", function(e){
         mvc.routeCommand("learn-more", [1,2,new Date(),4,Math.floor(Math.random() * 1000000000),6,7,8,9,0]);
     });

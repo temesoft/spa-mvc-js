@@ -1,8 +1,6 @@
 {
     "startupController": ["indexController"],
 
-    "startupUiBindings": ["startupUiBindings"],
-
     "viewsUrlMap": [
         {"LearnMore": "views/LearnMore.html"},
         {"CurrencyConverter": "views/CurrencyConverter.html"},

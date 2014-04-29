@@ -1,7 +1,7 @@
 spa-mvc-js (v1.0.3)
 -------------------
 
-The goal of this project is a simple Single Page Application Model-View-Controller framework for JavaScript.
+The goal of this project is a simple Single Page Application Model-View-Controller utility for JavaScript.
 
 Features
 --------
@@ -16,12 +16,11 @@ Features
 * JSON context MVC configuration / settings file(s)
 * Ability to pre-load all views or load/cache upon initial view request
 
-Framework sample JSON configuration
---------------------
+Application context sample configuration
+----------------------------------------
 <pre>
 {
     "startupController": ["indexController"],
-    "startupUiBindings": ["startupUiBindings"],
     "viewsUrlMap": [
         {"LearnMore": "views/LearnMore.html"},
         {"Overview": "views/Overview.html"},
@@ -37,10 +36,27 @@ Framework sample JSON configuration
 }
 </pre>
 
+
+Controller example
+------------------
+<pre>
+    var reportsController = function ReportsController(paramsArray)
+    {
+        // at this point get the data for model...
+        // ... and then
+        var model = {createTime: new Date(), paramsArray: paramsArray, someNewParam: receivedJsonData};
+        var resultHtml = mvc.processView("Reports", model);  // html template views/Reports.html
+        $(".main").html(resultHtml); // insert returning html into the dom
+    }
+</pre>
+
+
 Web root directory structure
 ----------------------------
 <pre>
 ├── <b>css</b> <em>(contains application stylesheets)</em>
+│
+├── <b>images</b> <em>(contains application images)</em>
 │
 ├── <b>js</b>
 │   │
@@ -48,15 +64,16 @@ Web root directory structure
 │   │
 │   └── <b>mvc</b> <em>(contains spa-mvc.js)</em>
 │       │
-│       ├── <b>controllers</b> <em>(contains controller classes)</em>
-│       │
-│       └── <b>models</b> <em>(contains model dto classes)</em>
+│       └── <b>controllers</b> <em>(contains controller classes)</em>
 │
-└── <b>views</b> <em>(contains html view templates)</em>
+├── <b>views</b> <em>(contains html view templates)</em>
+│
+└── <b>index.html</b> <em>main page</em>
 </pre>
 
-SPA MVC Application context startup
------------------------------------
+
+Application context startup
+---------------------------
 <pre>
 var configParams =
 {
@@ -90,7 +107,4 @@ Running demo
 * This project includes the demo app which can run inside any html web server
 * Just point your web server to the newly created directory .../spa-mvc-js
 * Use your browser to navigate to /index.html
-
-
-
 

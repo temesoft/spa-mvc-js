@@ -1,5 +1,5 @@
 /**
- * SPA-MVC utility class provides routing, view-model template processing
+ * SPA-MVC utility class provides Routing, view-model template processing
  *
  * View loader is able to load views run-time when requested for
  * the first time or pre-load them all on the initial startup
@@ -137,7 +137,7 @@ function SpaMvc(options)
                             var controllerName = mvc.routeControllerMap.getItem(keys[i]);
                             var controller = mvc.controllersMap.getItem(controllerName);
                             params.shift(); // remove first element in array (routing param)
-                            if (this.encryptHashParams)
+                            if (this.encryptHashParams && params.length > 0)
                             {
                                 var decParamStr = CryptoJS.AES.decrypt(params[0], mvc.sessionId);
                                 controller(decParamStr.toString(CryptoJS.enc.Utf8).split("|"));
@@ -159,16 +159,19 @@ function SpaMvc(options)
          */
         this.routeCommand = function(command, paramArray)
         {
-            var encRoute = "#" + command + "|";
-            if (this.encryptHashParams)
+            var encRoute = "#" + command;
+            var arrayParams = jQuery.makeArray(paramArray);
+            if (arrayParams.length > 0)
             {
-                encRoute = encRoute + CryptoJS.AES.encrypt(jQuery.makeArray(paramArray).join("|"), mvc.sessionId).toString();
+                if (this.encryptHashParams)
+                {
+                    encRoute = encRoute + "|" + CryptoJS.AES.encrypt(arrayParams.join("|"), mvc.sessionId).toString();
+                }
+                else
+                {
+                    encRoute = encRoute + "|" + jQuery.makeArray(paramArray).join("|");
+                }
             }
-            else
-            {
-                encRoute = encRoute + jQuery.makeArray(paramArray).join("|");
-            }
-
             document.location = encRoute;
         }
 
@@ -190,7 +193,6 @@ function SpaMvc(options)
                         var viewsUrlMap = jQuery.makeArray(data.viewsUrlMap);
                         var routeControllerMap = jQuery.makeArray(data.routeControllerMap);
                         var startupController = jQuery.makeArray(data.startupController);
-                        var startupUiBindings = jQuery.makeArray(data.startupUiBindings);
                         var map, key, value;
 
                         for (var i = 0; i < viewsUrlMap.length; i++) {
@@ -217,12 +219,6 @@ function SpaMvc(options)
                             if (this.debugOn)
                                 console.log(this.timestamp() + "executing startup controller: ["+startupController[i]+"]");
                             mvcThis.controllersMap.getItem(startupController[i])();
-                        }
-
-                        for (var i = 0; i < startupUiBindings.length; i++) {
-                            if (this.debugOn)
-                                console.log(this.timestamp() + "executing startup ui bindings: ["+startupUiBindings[i]+"]");
-                            window[startupUiBindings[i]]();
                         }
 
                         // If there is hash command - process through regular mvc route dispatcher
