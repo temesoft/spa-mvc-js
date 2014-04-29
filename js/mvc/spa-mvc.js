@@ -14,7 +14,7 @@ function SpaMvc(options)
 {
     if (stringUtils.isNotUndAndNull(options))
     {
-
+        this.version            = "0.3";
         this.context            = "spa-mvc-context.json";
         this.sessionId          = "pass-session-id-as-options-param";
         this.encryptHashParams  = true;
@@ -47,7 +47,7 @@ function SpaMvc(options)
         }
 
         if (this.debugOn)
-            console.log(this.timestamp() + "Starting spa-mvc-js framework. ");
+            console.log(this.timestamp() + "Starting spa-mvc-js framework. Version: " + this.version);
 
         this.viewsUrlMap        = new HashTable({});
         this.viewsMap           = new HashTable({});

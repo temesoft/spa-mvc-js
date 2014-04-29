@@ -1,5 +1,5 @@
-spa-mvc-js (v1.0.3)
--------------------
+spa-mvc-js (v0.3)
+-----------------
 
 The goal of this project is a simple Single Page Application Model-View-Controller utility for JavaScript.
 

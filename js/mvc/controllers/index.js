@@ -6,7 +6,7 @@ var indexController = function IndexController(paramsArray)
 {
     $(".nav-sidebar LI").removeClass("active");
     $(".indexLeftMenuButton").parent().addClass("active");
-    var result = mvc.processView("Index", null);
+    var result = mvc.processView("Index", {version: mvc.version, createTime: new Date(), createTimeMs: new Date().getTime()});
     $(".main").html(result);
 
     $(".learnMoreButton").unbind("click").bind("click", function(e){
