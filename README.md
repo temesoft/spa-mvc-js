@@ -40,7 +40,7 @@ Application context sample configuration
 Controller example
 ------------------
 <pre>
-    var reportsController = function ReportsController(paramsArray)
+    var reportsController = function(paramsArray)
     {
         // at this point get the data for model...
         // ... and then

@@ -1,4 +1,4 @@
-var currencyConverterController = function CurrencyConverterController(paramsArray)
+var currencyConverterController = function(paramsArray)
 {
     $(".nav-sidebar LI").removeClass("active");
     $(".currencyConverterLeftMenuButton").parent().addClass("active");

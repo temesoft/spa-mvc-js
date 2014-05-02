@@ -1,4 +1,4 @@
-var reportsController = function ReportsController(paramsArray)
+var reportsController = function(paramsArray)
 {
     $(".nav-sidebar LI").removeClass("active");
     $(".reportsLeftMenuButton").parent().addClass("active");

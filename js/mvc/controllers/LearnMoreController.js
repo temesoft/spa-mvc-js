@@ -1,4 +1,4 @@
-var learnMoreController = function LearnMoreController(paramsArray)
+var learnMoreController = function(paramsArray)
 {
     $(".nav-sidebar LI.active").removeClass("active");
     $(".learnMoreButton").parent().addClass("active");
