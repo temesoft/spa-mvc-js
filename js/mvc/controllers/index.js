@@ -2,7 +2,7 @@
  * Pre binds the main menu links for clicks also some functionality
  * for the url encryption toggle (cookie driven)
  */
-var indexController = function IndexController(paramsArray)
+var indexController = function(paramsArray)
 {
     $(".nav-sidebar LI").removeClass("active");
     $(".indexLeftMenuButton").parent().addClass("active");

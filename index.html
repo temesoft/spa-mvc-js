@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <title>spa-mvc-js</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
@@ -26,6 +27,7 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
+                <!-- following links are bounded in indexController inside /js/mvc/controllers/index.js -->
                 <li><a href="javascript:" class="indexLeftMenuButton">Index</a></li>
                 <li><a href="javascript:" class="currencyConverterLeftMenuButton">Currency converter</a></li>
                 <li><a href="javascript:" class="reportsLeftMenuButton">Reports</a></li>
@@ -34,13 +36,10 @@
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <!-- Will be filled in run-time -->
+            <!-- This block will be filled in run-time -->
         </div>
     </div>
 </div>
-
-<!-- Bootstrap core JavaScript
-================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>

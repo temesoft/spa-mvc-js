@@ -14,14 +14,30 @@ function SpaMvc(options)
 {
     if (stringUtils.isNotUndAndNull(options))
     {
-        this.version            = "0.3";
+        this.version            = "0.4";
         this.useHashRouting     = true;
         this.context            = "spa-mvc-context.json";
         this.sessionId          = "pass-session-id-as-options-param";
         this.encryptHashParams  = true;
         this.debugOn            = false;
         this.preloadViews       = false;
-        this.timestamp          = function(){ return (new Date())+"> " };
+
+
+
+        this.timestamp          = function()
+        {
+            var date = new Date();
+            var yyyy = date.getFullYear().toString();
+            var mm = (date.getMonth()+1).toString();
+            var dd  = date.getDate().toString();
+            var h = date.getHours().toString();
+            var m = date.getMinutes().toString();
+            var s  = date.getSeconds().toString();
+            var ms  = date.getMilliseconds().toString();
+            var ymdDateTime = yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]) + " " +
+                (h[1]?h:"0"+h[0]) + ":" + (m[1]?m:"0"+m[0]) + ":" + (s[1]?s:"0"+s[0]) + "."+ms;
+            return (ymdDateTime)+"> ";
+        };
 
         if (stringUtils.isNotUndAndNull(options))
         {
@@ -52,7 +68,18 @@ function SpaMvc(options)
         }
 
         if (this.debugOn)
-            console.log(this.timestamp() + "Starting spa-mvc-js framework. Version: " + this.version);
+        {
+            console.log("                                          _     ");
+            console.log("                                         (_)    ");
+            console.log(" ___ _ __   __ _   _ __ _____   _____     _ ___ ");
+            console.log("/ __| '_ \\ / _` | | '_ ` _ \\ \\ / / __|   | / __|");
+            console.log("\\__ \\ |_) | (_| | | | | | | \\ V / (__    | \\__ \\");
+            console.log("|___/ .__/ \\__,_| |_| |_| |_|\\_/ \\___|   | |___/");
+            console.log("    | |                                 _/ |    ");
+            console.log("    |_|                                |__/     ");
+            console.log("spa-mvc-js (v: " + this.version + ")");
+        }
+
 
         this.viewsUrlMap        = new HashTable({});
         this.viewsMap           = new HashTable({});
@@ -100,7 +127,7 @@ function SpaMvc(options)
             var key = viewName;
             var viewUrl = this.viewsUrlMap.getItem(key);
             if (this.debugOn)
-                console.log(this.timestamp() + "Loading mvc.loadView("+key+") from ["+viewUrl+"]");
+                console.log(this.timestamp() + "Loading View("+key+") from ["+viewUrl+"]");
             $.ajax({
                 cache: false,
                 url: viewUrl,
@@ -108,15 +135,15 @@ function SpaMvc(options)
                 success: function(data) {
                     mvc.viewsMap.setItem(key, data);
                     if (this.debugOn)
-                        console.log(this.timestamp() + "mvc.loadView("+key+") " + data.length + " bytes");
+                        console.log(this.timestamp() + "View("+key+") " + data.length + " bytes");
                 },
                 failure: function(data) {
                     if (this.debugOn)
-                        console.log(this.timestamp() + "Failure loading mvc.loadView("+key+") " + data);
+                        console.log(this.timestamp() + "Failure loading View("+key+") " + data);
                 },
                 error: function(data) {
                     if (this.debugOn)
-                        console.log(this.timestamp() + "Error loading mvc.loadView("+key+") " + data);
+                        console.log(this.timestamp() + "Error loading View("+key+") " + data);
                 },
                 async: false
             });
@@ -186,6 +213,7 @@ function SpaMvc(options)
         this.loadSpaMvcContext = function()
         {
             var jsonConfigFilesArray = jQuery.makeArray(this.context);
+            var startupController = [];
             for (var i = 0; i < jsonConfigFilesArray.length; i++)
             {
                 var jsonConfigFile = jsonConfigFilesArray[i];
@@ -195,17 +223,20 @@ function SpaMvc(options)
                     type: "GET",
                     async: false,
                     success: function(data) {
+                        if (mvcThis.debugOn)
+                            console.log(mvcThis.timestamp() + "Processing: "+jsonConfigFile);
                         var viewsUrlMap = jQuery.makeArray(data.viewsUrlMap);
                         var routeControllerMap = jQuery.makeArray(data.routeControllerMap);
-                        var startupController = jQuery.makeArray(data.startupController);
+                        startupController = startupController.concat(jQuery.makeArray(data.startupController));
                         var map, key, value;
 
                         for (var i = 0; i < viewsUrlMap.length; i++) {
                             map = new HashTable(viewsUrlMap[i]);
                             key = map.keys()[0];
                             value = map.getItem(key);
-                            if (this.debugOn)
-                                console.log(this.timestamp() + "viewsUrlMap: ["+key+"] = " + value);
+                            if (mvcThis.debugOn)
+                                console.log(mvcThis.timestamp() + "ViewsUrlMap: ["+key+
+                                    "] = " + value);
                             mvcThis.viewsUrlMap.setItem(key, value);
                         }
 
@@ -213,44 +244,58 @@ function SpaMvc(options)
                             map = new HashTable(routeControllerMap[i]);
                             key = map.keys()[0];
                             value = map.getItem(key);
-                            if (this.debugOn)
-                                console.log(this.timestamp() + "routeControllerMap: ["+key+"] = " + value + " {controller found:"+ (controller!=undefined)+"}");
+                            if (mvcThis.debugOn)
+                                console.log(mvcThis.timestamp() + "RouteControllerMap: ["+key+
+                                    "] = " + value + " {controller found:"+ (controller!=undefined)+"}");
                             mvcThis.routeControllerMap.setItem(key, value);
                             var controller = window[value];
                             mvcThis.controllersMap.setItem(value, controller);
                         }
-
-                        for (var i = 0; i < startupController.length; i++) {
-                            if (this.debugOn)
-                                console.log(this.timestamp() + "executing startup controller: ["+startupController[i]+"]");
-                            window[startupController[i]]();
-                        }
-
-                        // If there is hash command - process through regular mvc route dispatcher
-                        if (location.hash.indexOf("#") == 0)
-                        {
-                            var hash = location.hash;
-                            if (stringUtils.isNotBlank(hash))
-                            {
-                                mvcThis.processHash(hash);
-                            }
-                        }
-
-                        if  (mvcThis.preloadViews)
-                        {
-                            mvcThis.loadViews();
-                        }
                     },
                     failure: function(data) {
-                        if (this.debugOn)
-                            console.log(this.timestamp() + "Failure loading context ["+contextLocation+"]: " + data);
+                        if (mvcThis.debugOn)
+                            console.log(mvcThis.timestamp() + "Failure loading context ["+contextLocation+"]: " + data);
                     },
                     error: function(data) {
-                        if (this.debugOn)
-                            console.log(this.timestamp() + "Error loading context ["+contextLocation+"]: " + data);
+                        if (mvcThis.debugOn)
+                            console.log(mvcThis.timestamp() + "Error loading context ["+contextLocation+"]: " + data);
                     }
                 });
             }
+
+            /**
+             * Check if the config setting = true pre-load all views in available context
+             */
+            if  (mvcThis.preloadViews)
+            {
+                if (mvcThis.debugOn)
+                    console.log(mvcThis.timestamp() + "Pre-loading ("+mvc.viewsUrlMap.length+") views");
+                mvcThis.loadViews();
+            }
+
+            /**
+             * Execute all startup controllers / possibly ui bindings
+             */
+            if (this.debugOn)
+                console.log(this.timestamp() + "Executing ("+ startupController.length + ") startup controllers");
+            for (var i = 0; i < startupController.length; i++) {
+                if (this.debugOn)
+                    console.log(this.timestamp() + "Executing startup controller: ["+startupController[i]+"]");
+                window[startupController[i]]();
+            }
+
+            /**
+             * If there is hash command already in the web address - process through regular mvc route dispatcher
+             */
+            if (location.hash.indexOf("#") == 0)
+            {
+                var hash = location.hash;
+                if (stringUtils.isNotBlank(hash))
+                {
+                    mvcThis.processHash(hash);
+                }
+            }
+
         };
 
         // Routing / dispatching mvc module
