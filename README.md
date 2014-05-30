@@ -14,6 +14,7 @@ Features
 * Single place to configure context: startup, views and controllers
 * Asynchronous context and controllers loading
 * JSON context MVC configuration / settings file(s)
+* Remote context configuration loading option
 * Ability to pre-load all views or load/cache upon initial view request
 
 Application context sample configuration

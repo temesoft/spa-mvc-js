@@ -1,5 +1,5 @@
 {
-    "startupController": ["indexController"],
+    "startupController": ["startupController"],
 
     "viewsUrlMap": [
         {"LearnMore": "views/LearnMore.html"},

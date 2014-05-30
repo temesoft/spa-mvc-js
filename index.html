@@ -36,7 +36,7 @@
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <!-- This block will be filled in run-time -->
+            <!-- This block will be filled run-time -->
         </div>
     </div>
 </div>
@@ -54,6 +54,7 @@
 <script src="js/mvc/controllers/CurrencyConverterController.js"></script>
 <script src="js/mvc/controllers/ReportsController.js"></script>
 <script src="js/mvc/controllers/index.js"></script>
+<script src="js/mvc/controllers/StartupController.js"></script>
 
 <script src="js/mvc/spa-mvc.js"></script>
 
@@ -67,7 +68,23 @@
         "debugOn": true,
         "useHashRouting": true,
         "preloadViews": true,
-        "context": ["spa-mvc-context.json"]
+//        "context": ["spa-mvc-context.json"],
+//                      Use "context" param to load remote json context config
+        "contextData": { // Or like in this case we provide the context data here
+                    "startupController": ["startupController"],
+                    "viewsUrlMap": [
+                        {"LearnMore": "views/LearnMore.html"},
+                        {"CurrencyConverter": "views/CurrencyConverter.html"},
+                        {"Reports": "views/Reports.html"},
+                        {"Index": "views/Index.html"}
+                    ],
+                    "routeControllerMap": [
+                        {"learn-more": "learnMoreController"},
+                        {"currency-converter": "currencyConverterController"},
+                        {"reports": "reportsController"},
+                        {"index": "indexController"}
+                    ]
+        }
     };
     $("#urlEncryptionBtn").html("<span class='text-muted'>URL Encryption: <strong class='text-primary'>" +
             (urlEncryption=="true"?"On":"Off") + "</strong></span>");

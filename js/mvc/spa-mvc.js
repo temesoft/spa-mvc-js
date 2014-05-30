@@ -16,7 +16,8 @@ function SpaMvc(options)
     {
         this.version            = "0.4";
         this.useHashRouting     = true;
-        this.context            = "spa-mvc-context.json";
+        this.context            = null;  // Optional remote context config load. Ex:  "/some_dir/spa-mvc-context.json"
+        this.contextData        = null;
         this.sessionId          = "pass-session-id-as-options-param";
         this.encryptHashParams  = true;
         this.debugOn            = false;
@@ -64,6 +65,10 @@ function SpaMvc(options)
             if (options['preloadViews'] != null)
             {
                 this.preloadViews = options['preloadViews'];
+            }
+            if (options['contextData'] != null)
+            {
+                this.contextData = options['contextData'];
             }
         }
 
@@ -212,45 +217,56 @@ function SpaMvc(options)
          */
         this.loadSpaMvcContext = function()
         {
+            var mvcThis = this;
             var jsonConfigFilesArray = jQuery.makeArray(this.context);
             var startupController = [];
+
+            function processData(data)
+            {
+                if (mvcThis.debugOn)
+                    console.log(mvcThis.timestamp() + "Processing: "+jsonConfigFile);
+                var viewsUrlMap = jQuery.makeArray(data.viewsUrlMap);
+                var routeControllerMap = jQuery.makeArray(data.routeControllerMap);
+                startupController = startupController.concat(jQuery.makeArray(data.startupController));
+                var map, key, value;
+
+                for (var i = 0; i < viewsUrlMap.length; i++) {
+                    map = new HashTable(viewsUrlMap[i]);
+                    key = map.keys()[0];
+                    value = map.getItem(key);
+                    if (mvcThis.debugOn)
+                        console.log(mvcThis.timestamp() + "ViewsUrlMap: ["+key+
+                            "] = " + value);
+                    mvcThis.viewsUrlMap.setItem(key, value);
+                }
+
+                for (var i = 0; i < routeControllerMap.length; i++) {
+                    map = new HashTable(routeControllerMap[i]);
+                    key = map.keys()[0];
+                    value = map.getItem(key);
+                    if (mvcThis.debugOn)
+                        console.log(mvcThis.timestamp() + "RouteControllerMap: ["+key+
+                            "] = " + value + " {controller found:"+ (controller!=undefined)+"}");
+                    mvcThis.routeControllerMap.setItem(key, value);
+                    var controller = window[value];
+                    mvcThis.controllersMap.setItem(value, controller);
+                }
+            }
+
+            if (stringUtils.isNotUndAndNull(this.contextData))
+            {
+                processData(this.contextData);
+            }
+
             for (var i = 0; i < jsonConfigFilesArray.length; i++)
             {
                 var jsonConfigFile = jsonConfigFilesArray[i];
-                var mvcThis = this;
                 $.ajax({
                     url: jsonConfigFile,
                     type: "GET",
                     async: false,
                     success: function(data) {
-                        if (mvcThis.debugOn)
-                            console.log(mvcThis.timestamp() + "Processing: "+jsonConfigFile);
-                        var viewsUrlMap = jQuery.makeArray(data.viewsUrlMap);
-                        var routeControllerMap = jQuery.makeArray(data.routeControllerMap);
-                        startupController = startupController.concat(jQuery.makeArray(data.startupController));
-                        var map, key, value;
-
-                        for (var i = 0; i < viewsUrlMap.length; i++) {
-                            map = new HashTable(viewsUrlMap[i]);
-                            key = map.keys()[0];
-                            value = map.getItem(key);
-                            if (mvcThis.debugOn)
-                                console.log(mvcThis.timestamp() + "ViewsUrlMap: ["+key+
-                                    "] = " + value);
-                            mvcThis.viewsUrlMap.setItem(key, value);
-                        }
-
-                        for (var i = 0; i < routeControllerMap.length; i++) {
-                            map = new HashTable(routeControllerMap[i]);
-                            key = map.keys()[0];
-                            value = map.getItem(key);
-                            if (mvcThis.debugOn)
-                                console.log(mvcThis.timestamp() + "RouteControllerMap: ["+key+
-                                    "] = " + value + " {controller found:"+ (controller!=undefined)+"}");
-                            mvcThis.routeControllerMap.setItem(key, value);
-                            var controller = window[value];
-                            mvcThis.controllersMap.setItem(value, controller);
-                        }
+                        processData(data);
                     },
                     failure: function(data) {
                         if (mvcThis.debugOn)
