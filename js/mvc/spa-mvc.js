@@ -27,25 +27,6 @@ function SpaMvc(options) {
         this.debugOn                = false;
         this.preloadViews           = false;
 
-        this.timestamp = function () {
-            var date = new Date();
-            var yyyy = date.getFullYear().toString();
-            var mm = (date.getMonth() + 1).toString();
-            var dd = date.getDate().toString();
-            var h = date.getHours().toString();
-            var m = date.getMinutes().toString();
-            var s = date.getSeconds().toString();
-            var ms = date.getMilliseconds().toString();
-            if (ms.length == 1) {
-                ms = "00" + ms;
-            } else if (ms.length == 2) {
-                ms = "0" + ms;
-            }
-            var ymdDateTime = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + " " +
-                (h[1] ? h : "0" + h[0]) + ":" + (m[1] ? m : "0" + m[0]) + ":" + (s[1] ? s : "0" + s[0]) + "." + ms;
-            return (ymdDateTime) + "> ";
-        };
-
         this.debug = function (msg) {
             if (this.debugOn) {
                 console.log(this.timestamp() + " DEBUG: "+ msg);
@@ -288,12 +269,31 @@ function SpaMvc(options) {
             /**
              * If there is hash command already in the web address - process through regular mvc route dispatcher
              */
-            if (location.hash.indexOf("#") == 0) {
+            if (location.hash.indexOf("#") === 0) {
                 var hash = location.hash;
                 if (stringUtils.isNotBlank(hash)) {
                     mvcThis.processHash(hash);
                 }
             }
+        };
+
+        this.timestamp = function () {
+            var date = new Date();
+            var yyyy = date.getFullYear().toString();
+            var mm = (date.getMonth() + 1).toString();
+            var dd = date.getDate().toString();
+            var h = date.getHours().toString();
+            var m = date.getMinutes().toString();
+            var s = date.getSeconds().toString();
+            var ms = date.getMilliseconds().toString();
+            if (ms.length == 1) {
+                ms = "00" + ms;
+            } else if (ms.length == 2) {
+                ms = "0" + ms;
+            }
+            var ymdDateTime = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + " " +
+                (h[1] ? h : "0" + h[0]) + ":" + (m[1] ? m : "0" + m[0]) + ":" + (s[1] ? s : "0" + s[0]) + "." + ms;
+            return (ymdDateTime) + "> ";
         };
 
         // Routing / dispatching mvc module
@@ -322,7 +322,3 @@ if (!window.console) {
     console = {log: function (s) {
     }};
 }
-
-
-
-
